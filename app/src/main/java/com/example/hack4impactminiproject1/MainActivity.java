@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.media.MediaPlayer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout gameEnd;
     HashMap<String,String> stringColor = new HashMap<String,String>();
     CountDownTimer countDownTimer;
-
-
+    MediaPlayer correct;
+    MediaPlayer lose;
+    MediaPlayer win;
     public void start(View view)
     {
         startButton.setVisibility(View.INVISIBLE);
@@ -63,10 +64,12 @@ public class MainActivity extends AppCompatActivity {
     {
         if (view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer)))
         {
+            correct.start();
             score++;
             scoreTextView.setText(Integer.toString(score));
             if (score == 8)
             {
+                win.start();
                 gameLayout.setVisibility(View.INVISIBLE);
                 gameEnd.setVisibility(View.VISIBLE);
                 gameEndTextView.setText("You win! :)");
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+            lose.start();
             gameLayout.setVisibility(View.INVISIBLE);
             gameEnd.setVisibility(View.VISIBLE);
             gameEndTextView.setText("You lose :(!");
@@ -164,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
         stringColor.put("Cyan", "#00FFFF");
         stringColor.put("Gray", "#808080");
         stringColor.put("Magenta", "#FF00FF");
+
+        correct = MediaPlayer.create(this, R.raw.correct);
+        win = MediaPlayer.create(this, R.raw.win);
+        lose = MediaPlayer.create(this, R.raw.lose);
 
         startButton.setVisibility(View.VISIBLE);
         gameLayout.setVisibility(View.INVISIBLE);
