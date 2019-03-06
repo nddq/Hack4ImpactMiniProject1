@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Button playAgain;
     int locationOfCorrectAnswer;
     int locationOfTextColor;
-    int score=0;
+    int score;
     String[] answers = new String[4];
     TextView colorTextView;
     TextView timerTextView;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer win;
     public void start(View view)
     {
+        score = 0;
         startButton.setVisibility(View.INVISIBLE);
         gameLayout.setVisibility(View.VISIBLE);
         gameEnd.setVisibility(View.INVISIBLE);
@@ -52,9 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish(){
+                lose.start();
                 gameLayout.setVisibility(View.INVISIBLE);
                 gameEnd.setVisibility(View.VISIBLE);
                 gameEndTextView.setText("You lose :(!");
+                countDownTimer.cancel();
             }
         };
         generateQuestion();
@@ -73,10 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 gameLayout.setVisibility(View.INVISIBLE);
                 gameEnd.setVisibility(View.VISIBLE);
                 gameEndTextView.setText("You win! :)");
-                score = 0;
-
+                countDownTimer.cancel();
             }
-            generateQuestion();
+            else
+            {
+                generateQuestion();
+            }
         }
         else
         {
@@ -84,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             gameLayout.setVisibility(View.INVISIBLE);
             gameEnd.setVisibility(View.VISIBLE);
             gameEndTextView.setText("You lose :(!");
-            score = 0;
             countDownTimer.cancel();
         }
     }
